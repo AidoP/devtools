@@ -1,0 +1,42 @@
+name: deploy-pages
+run-name: Deploy to Pages
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Install Dependencies
+        run: npm install
+      - name: Setup Pages
+        id: setup
+        uses: actions/configure-pages@v3
+      - name: Check
+        run: npm run check
+      - name: Build
+        run: npm run build '${{ steps.setup.outputs.base_path }}'
+      - name: Redirect 404
+        run: ln -s index.html target/dist/404.html
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: target/dist
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

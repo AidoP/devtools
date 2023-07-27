@@ -1,0 +1,13 @@
+{
+    "name": "Dev Tools",
+    "short_name": "Dev Tools",
+    "lang": "en",
+    "start_url": "https://dev.trifuse.xyz",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "/icon.svg",
+            "sizes": "any"
+        }
+    ]
+}

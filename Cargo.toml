@@ -1,0 +1,16 @@
+[package]
+name = "devtools"
+version = "0.0.0"
+description = "Web based tools for developers."
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/AidoP/devtools/"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+path = "src/lib/mod.rs"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde-wasm-bindgen = "0.4"
+wasm-bindgen = { version = "0.2.87", features = ["serde-serialize"] }
